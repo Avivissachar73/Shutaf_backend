@@ -1,6 +1,6 @@
 const validateType = require('./typeValidation.function');
 const generateItemFromInterface = require('./generateItem.function');
-const { Enumerator, Range, MultiType, BaseTypeClass, UseType } = require('./class');
+const { Enumerator, Range, MultiType, BaseTypeClass, UseType, Any } = require('./class');
 
 module.exports = {
     validateType,
@@ -9,6 +9,7 @@ module.exports = {
     Enumerator: (...posibleVals) => new Enumerator(...posibleVals),
     Range: (min = -infinity, max = Infinity) => new Range(min, max),
     MultiType: (...types) => new MultiType(...types),
+    Any: () => new Any(),
     BaseTypeClass,
     UseType
 };

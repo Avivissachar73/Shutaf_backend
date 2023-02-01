@@ -8,8 +8,8 @@ module.exports = {
     {
       "createdBy": accounts[0],
       "content": "this is a comment about this telling something about WTF??",
-      "attachedId": defaultPosts[0],
-      "organizationId": miniDefaultOrgs[0]
+      "attachedId": defaultPosts[0]._id,
+      "organizationId": miniDefaultOrgs[0]._id
     }
   ]
 }

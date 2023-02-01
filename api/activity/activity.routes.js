@@ -1,6 +1,7 @@
 const express = require('express');
 const activityController = require('./activity.controller');
 const { requireAuth } = require('../../middlewares/requireAuth.middleware');
+const { addCreatedByToReqBody } = require('../../middlewares/addCreatedByToReqBody.middleware');
 
 const connectActivityRoutes = (server, rootBaseUrl) => {
   const router = express.Router();
@@ -8,7 +9,7 @@ const connectActivityRoutes = (server, rootBaseUrl) => {
   router.use(requireAuth);
   router.get('/', activityController.query);
   router.get('/:id', activityController.get);
-  router.post('/', activityController.add);
+  router.post('/', addCreatedByToReqBody, activityController.add);
   // router.put('/', activityController.update);
   router.delete('/:id', activityController.remove);
   server.use(baseUrl, router);

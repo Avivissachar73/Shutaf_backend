@@ -6,7 +6,7 @@ module.exports = {
   defaultShoppingLists: [
     {
       "createdBy": accounts[0],
-      "organizationId": miniDefaultOrgs[0],
+      "organizationId": miniDefaultOrgs[0]._id,
 
       "title" : "SHOPPING!?",
       "type" : "smart",

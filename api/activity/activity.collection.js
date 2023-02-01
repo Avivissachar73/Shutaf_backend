@@ -26,8 +26,7 @@ module.exports = {
     {
       "name": "dbInit",
       "desc": "Db init",
-      "at": new Date(),
-      "by": accounts[0],
+      "createdBy": accounts[0],
       "with": []
     }
   ]

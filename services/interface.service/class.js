@@ -69,6 +69,21 @@ class BaseTypeClass {   //  Helps to create new type class without missing the r
     random = () => undefined;
 }
 
+class Any {
+    validate(val, strict = true, validate) {
+        return true;
+    }
+    toString(stringit = c => c) {
+        return `Any type`;
+    }
+    empty() {
+        return null;
+    }
+    random() {
+        return null;
+    }
+}
+
 const LocalTypeClass = [Enumerator, Range, MultiType, BaseTypeClass];
 const UseType = InterFace => LocalTypeClass.push(InterFace); // send a new type class to this function so the service will know to use it.
 
@@ -81,6 +96,7 @@ module.exports = {
     Enumerator,
     Range,
     MultiType,
+    Any,
 
     isNativTypeClass,
     isInstanceOfLocalClass,
