@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.04a9c6b8d81a4e92514997eb9e33dfab.js"
+  "/precache-manifest.b7ae299eeb48e809263b444e67a30f20.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "frontend-starter"});
+workbox.core.setCacheNameDetails({prefix: "shutaf-frontend"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
