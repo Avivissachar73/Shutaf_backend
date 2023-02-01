@@ -1,0 +1,128 @@
+[
+  {
+    "name": "shual",
+    "ui": "🦊",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "danger",
+    "ui": "❌",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "sos",
+    "ui": "🆘",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "needHelp",
+    "ui": "🤞",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "turnOnLights",
+    "ui": "💡",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "hy",
+    "ui": "🖐",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "ok",
+    "ui": "👍",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "rockNRoll",
+    "ui": "🤘",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "rockNRoll2",
+    "ui": "🤙",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "wave",
+    "ui": "👋",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "spiderman",
+    "ui": "🤟",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "thanks",
+    "ui": "🙏",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "mascle",
+    "ui": "💪",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "selfy",
+    "ui": "🤳",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "chips",
+    "ui": "🍟",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "burger",
+    "ui": "🍔",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "pizza",
+    "ui": "🍕",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "salad",
+    "ui": "🥗",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "falafel",
+    "ui": "🥙",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "fu",
+    "ui": "🖕",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  {
+    "name": "robot",
+    "ui": "👾",
+    "maxDistM": 30,
+    "type": "reg"
+  }
+]

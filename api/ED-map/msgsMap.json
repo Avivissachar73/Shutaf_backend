@@ -1,0 +1,107 @@
+{
+  "shual": {
+    "ui": "🦊",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "danger": {
+    "ui": "❌",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "sos": {
+    "ui": "🆘",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "needHelp": {
+    "ui": "🤞",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "turnOnLights": {
+    "ui": "💡",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "hy": {
+    "ui": "🖐",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "ok": {
+    "ui": "👍",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "rockNRoll": {
+    "ui": "🤘",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "rockNRoll2": {
+    "ui": "🤙",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "wave": {
+    "ui": "👋",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "spiderman": {
+    "ui": "🤟",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "thanks": {
+    "ui": "🙏",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "mascle": {
+    "ui": "💪",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "selfy": {
+    "ui": "🤳",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "chips": {
+    "ui": "🍟",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "burger": {
+    "ui": "🍔",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "pizza": {
+    "ui": "🍕",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "salad": {
+    "ui": "🥗",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "falafel": {
+    "ui": "🥙",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "fu": {
+    "ui": "🖕",
+    "maxDistM": 30,
+    "type": "reg"
+  },
+  "robot": {
+    "ui": "👾",
+    "maxDistM": 30,
+    "type": "reg"
+  }
+}
