@@ -4,9 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "SET NODE_ENV=development && nodemon app.js",
+    "start": "node app.js",
+    "_start": "SET NODE_ENV=development && nodemon app.js",
     "init_db": "SET NODE_ENV=development && node ./initDb/index.js",
-    "test": "jest $1.test || jest"
+    "test": "jest $1.test || jest",
+    "deploy": "git push heroku master"
   },
   "keywords": [],
   "author": "",

@@ -3,7 +3,7 @@ const configInterface = require('./config.scheme');
 
 const devConf = {
   db: {
-    name: 'TEST_DB',
+    name: 'Shutaf',
     url: 'mongodb://localhost:27017'
   },
   jwt: {
