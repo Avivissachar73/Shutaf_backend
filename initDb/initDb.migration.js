@@ -2,10 +2,6 @@ const dbService = require('../services/db.service');
 
 const initDb = async (log = true) => {
   const dataToInsert = [
-    { // example collection
-      col:require('../api/example/example.service').col,
-      items: require('../api/example/example.collection.js').defaultExamples,
-    },
     { // activity collection
       col: require('../api/activity/activity.service').col,
       items: require('../api/activity//activity.collection.js').defaultActivities,
