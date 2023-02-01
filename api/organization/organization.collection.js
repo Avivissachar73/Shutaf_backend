@@ -13,7 +13,14 @@ const defaultOrgs = [
 
 const miniDefaultOrgs = defaultOrgs.map(c => minimizeOrg(c))
 
-require('../account/account.collection').defaultAccounts[0].organizations = [miniDefaultOrgs[0]];
+require('../account/account.collection').defaultAccounts[0].organizations = [{
+  ...miniDefaultOrgs[0],
+  "roles" : [
+      "admin", 
+      "creator"
+  ],
+  "status" : "approved"
+}];
 
 module.exports = {
   defaultOrgs,
