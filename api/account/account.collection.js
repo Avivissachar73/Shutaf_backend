@@ -6,8 +6,8 @@ const defaultAccounts = [
   {
     "_id": ObjectId(),
     "username": "Aviv73",
-    "username": "Aviv",
-    "firstname": "Issachar",
+    "firstname": "Aviv",
+    "lastname": "Issachar",
     "password": "12345",
     "email": "Aviv@shual.com",
     "roles": ["admin"],
@@ -31,16 +31,6 @@ const defaultAccounts = [
   //   "role": "admin",
   //   "_id": ObjectId()
   // },
-  {
-    "_id": ObjectId(),
-    "username":"Yahav",
-    "password":"Yahav0502054052",
-    "firstname":"Yahav",
-    "lastname":"Aframian",
-    "email":"Yahavaframyan@gmail.com",
-    "roles": ["user"],
-    "organizations": []
-  }
 ]
 
 

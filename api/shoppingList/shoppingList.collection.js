@@ -26,7 +26,8 @@ module.exports = {
                       "shopName" : "mega",
                       "value" : 3
                   }
-              ]
+              ],
+              "healthRate": 1
           }, 
           {
               "id" : "10C7-18588A8A76E-736",
@@ -43,20 +44,26 @@ module.exports = {
                       "value" : 7
                   }
               ],
-              "maxCount" : 10
+              "maxCount" : 10,
+              "healthRate": 10
           }, 
           {
               "id" : "1EF1-18588B591D2-1082",
-              "name" : "cola",
-              "count" : 4,
-              "minCount" : 2,
+              "name" : "popcorn",
+              "count" : 3,
+              "minCount" : 1,
               "prices" : [ 
                   {
                       "shopName" : "mega",
-                      "value" : 2
+                      "value" : 5
+                  },
+                  {
+                      "shopName" : "shupersal",
+                      "value" : 7
                   }
               ],
-              "maxCount" : 4
+              "maxCount" : 5,
+              "healthRate": 1
           }, 
           {
               "id" : "CF2-18588A49DC8-233B",
@@ -81,7 +88,8 @@ module.exports = {
                       "value" : 3
                   }
               ],
-              "maxCount" : 7
+              "maxCount" : 7,
+              "healthRate": 5
           }
       ],
       "cart" : [ 

@@ -6,7 +6,6 @@ const accountInterface = require('../account/account.interface').miniUser;
 const activityInterface = {
   name: String,
   desc: String,
-  at: Date,
   createdBy: accountInterface,
   with: [accountInterface],
   data: Any(),
