@@ -27,7 +27,8 @@ module.exports = {
                       "value" : 3
                   }
               ],
-              "healthRate": 1
+              "healthRate": 1,
+              "category": "juice"
           }, 
           {
               "id" : "10C7-18588A8A76E-736",
@@ -45,7 +46,8 @@ module.exports = {
                   }
               ],
               "maxCount" : 10,
-              "healthRate": 10
+              "healthRate": 10,
+              "category": "vegetable"
           }, 
           {
               "id" : "1EF1-18588B591D2-1082",
@@ -63,7 +65,8 @@ module.exports = {
                   }
               ],
               "maxCount" : 5,
-              "healthRate": 1
+              "healthRate": 1,
+              "category": "snack"
           }, 
           {
               "id" : "CF2-18588A49DC8-233B",
@@ -89,7 +92,8 @@ module.exports = {
                   }
               ],
               "maxCount" : 7,
-              "healthRate": 5
+              "healthRate": 5,
+              "category": "carb"
           }
       ],
       "cart" : [ 

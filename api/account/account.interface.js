@@ -1,7 +1,7 @@
 const { organizationRoles, userRoles } = require('../../services/const.service')
 const { Enumerator } = require('../../services/interface.service')
 const { MongoId } = require('../../services/interface.service/extraClasses')
-const { miniOrg } = require('../organization/organization.interface')
+const { miniOrg, organization } = require('../organization/organization.interface')
 
 module.exports.account = {
   username: String,
@@ -20,11 +20,14 @@ module.exports.account = {
   }]
 }
 
+
 module.exports.miniUser = {
   username: String,
   email: String,
   _id: MongoId
 }
+
+organization.createdBy = module.exports.miniUser; // fixing for circular dependency;
 
 module.exports.minimizeAccount = (account) => ({
   username: account.username,

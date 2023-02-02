@@ -1,8 +1,8 @@
-const { miniUser } = require("../account/account.interface")
+// const { miniUser } = require("../account/account.interface")
 const { MongoId } = require('../../services/interface.service/extraClasses')
 
 module.exports.organization = {
-  createdBy: miniUser,
+  createdBy: 'miniUser', // being fixed in file account.interface for circular dependency bug
   name: String,
   desc: String
 }

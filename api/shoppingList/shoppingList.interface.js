@@ -13,7 +13,8 @@ const shopingListInterface = {
       minCount: Number,
       maxCount: Number,
       prices: [ { shopName: String, value: Number } ],
-      healthRate: Range(1, 10)
+      healthRate: Range(1, 10),
+      category: String
     }
   ],
   organizationId: MongoId,
