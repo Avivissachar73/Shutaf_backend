@@ -19,7 +19,8 @@ require('../account/account.collection').defaultAccounts[0].organizations = [{
       "admin", 
       "creator"
   ],
-  "status" : "approved"
+  "status" : "approved",
+  "approverId": miniDefaultOrgs[0]
 }];
 
 module.exports = {

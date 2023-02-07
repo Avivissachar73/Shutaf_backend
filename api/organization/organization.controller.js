@@ -14,7 +14,7 @@ async function add(req, res, next) {
 
     const account = await accountService.get(addedOrg.createdBy._id);
     if (!account.organizations) account.organizations = [];
-    account.organizations.push({...minimizeOrg(addedOrg), roles: [organizationRoles.admin, organizationRoles.creator], status: organizationStatuses.approved});
+    account.organizations.push({...minimizeOrg(addedOrg), roles: [organizationRoles.admin, organizationRoles.creator], status: organizationStatuses.approved, approverId: account._id.toString()});
     await accountService.update(account);
     req.session.userData.user = account;
 
