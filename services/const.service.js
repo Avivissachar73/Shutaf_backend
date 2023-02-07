@@ -16,7 +16,8 @@ const organizationRoles = {
 const organizationStatuses = {
   pending: 'pending',
   approved: 'approved',
-  declined: 'declined'
+  declined: 'declined',
+  left: 'left'
 }
 
 const FILE_STORAGE_PATH = 'public/storage';

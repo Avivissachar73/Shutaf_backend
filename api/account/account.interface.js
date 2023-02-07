@@ -1,4 +1,4 @@
-const { organizationRoles, userRoles } = require('../../services/const.service')
+const { organizationRoles, userRoles, organizationStatuses } = require('../../services/const.service')
 const { Enumerator } = require('../../services/interface.service')
 const { MongoId } = require('../../services/interface.service/extraClasses')
 const { miniOrg, organization } = require('../organization/organization.interface')
@@ -15,11 +15,10 @@ module.exports.account = {
     "roles" : [ 
       Enumerator(...Object.values(organizationRoles))
     ],
-    "status" : Enumerator("approved", "declined", "pending"),
+    "status" : Enumerator(...Object.values(organizationStatuses)),
     approverId: MongoId
   }]
 }
-
 
 module.exports.miniUser = {
   username: String,
