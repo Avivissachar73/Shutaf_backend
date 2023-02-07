@@ -6,7 +6,7 @@ const defaultOrgs = [
   {
     "name": "Aviv`s organiation",
     "_id": ObjectId(),
-    "desc": String,
+    "desc": "Some organization that does some things",
     "createdBy": accounts[0],
   }
 ];
