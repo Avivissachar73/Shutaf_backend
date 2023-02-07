@@ -6,12 +6,15 @@ const path = require('path');
 const session = require('express-session');
 const enforce = require('express-sslify');
 const connectMongoDbSession = require('connect-mongodb-session');
+const httpServer = require('http');
+const socketIo = require('socket.io');
+const compression = require('compression');
 
 const utils = require('./services/utils.service');
 const config = require('./config');
 
 const server = express();
-const http = require('http').Server(server);
+const http = httpServer.Server(server);
 
 const mongoSessionStore = new (connectMongoDbSession(session))({
   uri: config.db.url,
@@ -39,10 +42,12 @@ if (process.env.NODE_ENV === 'development') {
   server.use(cors(corsConf));
 } else server.use(enforce.HTTPS( { trustProtoHeader: true } ));
 
+server.use(compression());
+
 const connectRoutes = require('./routes/routes');
 connectRoutes(server);
 
-const io = require('socket.io')(http, { cors: corsConf, cookie: true });
+const io = socketIo(http, { cors: corsConf, cookie: true });
 io.use((socket, next) => sessionMiddleware(socket.request, {}, next));
 const { connectSocketRoutes } = require('./routes/socket');
 connectSocketRoutes(io);
