@@ -23,7 +23,7 @@ async function update(req, res, next) {
     const id = req.body._id;
     
     const comment = await commentService.get(id);
-    if (!validateCreatorOrAdmin(comment, getUserFromExpressReq(req))) return res.status(401).send(createError('Unauthorized, cant edit comment', 401));
+    if (!validateCreatorOrAdmin(comment, getUserFromExpressReq(req))) return res.status(401).send(createError('noAuthToEditCommentError', 401, 'Unauthorized, cant edit comment'));
 
     const updatedComment = await commentService.update(req.body);
     socketService.getIO().emit(`add-comment-for-item-${id}`, {comment: updatedComment});
@@ -37,7 +37,7 @@ async function remove(req, res, next) {
   try {
     const id = req.params.id;
     const comment = await commentService.get(id);
-    if (!validateCreatorOrAdmin(comment, getUserFromExpressReq(req))) return res.status(401).send(createError('Unauthorized, cant remove comment', 401));
+    if (!validateCreatorOrAdmin(comment, getUserFromExpressReq(req))) return res.status(401).send(createError('noAuthToRemoveCommentError', 401, 'Unauthorized, cant remove comment'));
 
     socketService.getIO().emit(`remove-comment-for-item-${comment.attachedId}`, {id: comment._id});
 

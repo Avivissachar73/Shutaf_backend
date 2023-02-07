@@ -21,7 +21,7 @@ async function update(req, res, next) {
     const id = req.body._id;
     
     const post = await postService.get(id);
-    if (!validateCreatorOrOrgAdmin(post, getUserFromExpressReq(req))) return res.status(401).send(createError('Unauthorized, cant edit post', 401));
+    if (!validateCreatorOrOrgAdmin(post, getUserFromExpressReq(req))) return res.status(401).send(createError('noAuthToEditPostError', 401, 'Unauthorized, cant edit post'));
     
     delete req.body.comments;
     const updatedPost = await postService.update(req.body);
@@ -36,7 +36,7 @@ async function remove(req, res, next) {
     const id = req.params.id;
 
     const post = await postService.get(id);
-    if (!validateCreatorOrOrgAdmin(post, getUserFromExpressReq(req))) return res.status(401).send(createError('Unauthorized, cant remove post', 401));
+    if (!validateCreatorOrOrgAdmin(post, getUserFromExpressReq(req))) return res.status(401).send(createError('noAuthToRemovePostError', 401, 'Unauthorized, cant remove post'));
 
     await postService.remove(id);
     res.send({msg: `removed post with id: ${id}`});

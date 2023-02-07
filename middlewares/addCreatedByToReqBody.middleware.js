@@ -1,5 +1,5 @@
 const { minimizeAccount } = require('../api/account/account.interface.js');
-const { createError, noop } = require('../services/utils.service.js');
+const { noop } = require('../services/utils.service.js');
 const { getUserFromExpressReq } = require('../api/auth/auth.controller.js');
 
 function addCreatedByToReqBody(req, res, next) {

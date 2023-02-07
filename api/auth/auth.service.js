@@ -26,9 +26,9 @@ async function signup(account) {
   const collection = await dbService.getCollection(accountCol);
 
   const accountWithSameEmail = await collection.findOne({email: account.email});
-  if (accountWithSameEmail) return {err: 'Email is already taken'};
+  if (accountWithSameEmail) return {err: 'emailIsTakenError', msg: 'Email is already taken'};
   const accountWithSameUsername = await collection.findOne({username: account.username});
-  if (accountWithSameUsername) return {err: 'Username is already taken'};
+  if (accountWithSameUsername) return {err: 'usernameIsTakenError', msg: 'Username is already taken'};
 
   validateType(accountScheme, account, true);
   return collection.insertOne(account);

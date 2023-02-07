@@ -3,12 +3,12 @@ function getCreateErrMsg(fileName) {
   return (msg, funcName, err = '') => `${msg} | at: ${fileName} file, function: ${funcName} | err: ${err.message || err.msg || 'unknown'}`;
 }
 
-function createError(err = '', status = 500,  message = '') {
+function createError(err = '', status = 500,  msg = '') {
   const error = err.err || err.error || err.message || err.msg || err;
   return {
     err: error,
     status,
-    message: message || error,
+    msg: msg || error,
   }
 }
 

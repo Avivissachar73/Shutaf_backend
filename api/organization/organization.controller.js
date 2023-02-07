@@ -1,5 +1,5 @@
 const { userRoles, organizationRoles, organizationStatuses } = require('../../services/const.service');
-const { validateCreatorOrAdmin } = require('../../services/userValidation.service');
+const { validateCreatorOrAdmin, validateCreatorOrOrgAdmin, validateUserOrgAdmin, validateAppAdmin } = require('../../services/userValidation.service');
 const { fixDeepQuery, createError } = require('../../services/utils.service');
 const { getUserFromExpressReq, updateAccuntSessionData } = require('../auth/auth.controller.js');
 const { minimizeAccount } = require('../account/account.interface');
@@ -28,6 +28,10 @@ async function update(req, res, next) {
   try {
     delete req.body.members;
     delete req.body.loggedAccountData;
+
+    const isValid = await validateOrgAuth(req.body._id, req);
+    if (!isValid) return res.status(401).send(createError('noAuthToUEditOrganizationError', 401, 'Unauthorized, cant edit organization'));
+
     const updatedOrg = await organizationService.update(req.body);
     res.send(updatedOrg);
   } catch(err) {
@@ -39,8 +43,8 @@ async function remove(req, res, next) {
   try {
     const id = req.params.id;
 
-    const item = organizationService.get(id);
-    if (!validateCreatorOrAdmin(item, getUserFromExpressReq(req))) return res.status(401).send(createError('Unauthorized', 401));
+    const isValid = await validateOrgAuth(id, req);
+    if (!isValid) return res.status(401).send(createError('noAuthToRemoveOrganizationError', 401, 'Unauthorized, cant remove organization'));
 
     await organizationService.remove(id);
     res.send({msg: `removed organization with id: ${id}`});
@@ -103,7 +107,8 @@ async function changeAccountStatusOnOrg(req, res, next) {
     const account = await accountService.get(accountId);
     // const organization = await organizationService.get(organizationId);
     const orgOnAccount = account.organizations.find(c => c._id === organizationId);
-    if (orgOnAccount.approverId !== getUserFromExpressReq(req)._id) return res.status(401).json(createError('unauthorized', 401));
+    const isRegValid = await validateOrgAuth(orgOnAccount._id, req);
+    if (!isRegValid && (orgOnAccount.approverId !== getUserFromExpressReq(req)._id)) return res.status(401).json(createError('noAuthToChangeAccountOrganizationStatusError', 401, 'Unauthorized, cant change account status in organization'));
     orgOnAccount.status = newStatus;
     await accountService.update(account);
 
@@ -116,6 +121,11 @@ async function changeAccountStatusOnOrg(req, res, next) {
 }
 
 
+async function validateOrgAuth(orgId, req) {
+  if (validateAppAdmin(getUserFromExpressReq(req))) return true;
+  const org = await organizationService.get(orgId);
+  return validateUserOrgAdmin(org, getUserFromExpressReq(req))
+}
 
 
 module.exports = {

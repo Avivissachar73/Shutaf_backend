@@ -7,7 +7,7 @@ const { getUserFromExpressReq } = require('../api/auth/auth.controller.js');
 // }
 async function requireAuth(req, res, next) {
   const token = req.cookies.token;
-  const endIt = () => res.status(401).send(createError('Unauthorized, please login.', 401));
+  const endIt = () => res.status(401).send(createError('notLoggedInError', 401, 'Unauthorized, please login.'));
   if (!token) return endIt();
 
   try {

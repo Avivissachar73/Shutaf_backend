@@ -14,6 +14,10 @@ function validateUserMinRole(user, role) {
   return userRoleVal >= reqRoleVal;
 }
 
+function validateAppAdmin(user) {
+  return validateUserRole(user, role, userRoles.admin)
+}
+
 function validateCreator(item, user) {
   return (item.createdBy?._id === user._id);
 }
@@ -49,6 +53,7 @@ module.exports = {
   validateUserMinRole,
   validateCreator,
   validateCreatorOrAdmin,
+  validateAppAdmin,
 
   validateCreatorOrOrgRole,
   validateUserOrgRole,

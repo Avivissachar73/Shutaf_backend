@@ -5,13 +5,13 @@ const { getUserFromExpressReq } = require('../api/auth/auth.controller.js');
 
 const validateOrganization = (req, res, next) => {
     const orgInUser = _getOrgFromReq(req);
-    if (!orgInUser) return res.status(401).send(createError('authorizationError: user not allowd', 401));
+    if (!orgInUser) return res.status(401).send(createError('userNotAllowdInOrganizationError', 401, 'Authorization error: user not allowd'));
     next();
 }
 
 const validateOrganizationMember = (req, res, next) => {
     const orgInUser = _getOrgFromReq(req);
-    if (orgInUser?.status !== organizationStatuses.approved) return res.status(401).send(createError('authorizationError: user not allowd', 401));
+    if (orgInUser?.status !== organizationStatuses.approved) return res.status(401).send(createError('userNotAllowdInOrganizationError', 401, 'Authorization error: user not allowd'));
     next();
 }
 

@@ -5,7 +5,7 @@ const CODE = 666; // God sleeps in shabat so Satan handles the error;
 function keepShabat(req, res, next) {
   noop(req);
   const isShabat = new Date().getDay() === 6;
-  if (isShabat) return res.status(CODE).send(createError('Shabes!', CODE));
+  if (isShabat) return res.status(CODE).send(createError('shabesError', CODE, 'Shabes!'));
   next();
 }
 
