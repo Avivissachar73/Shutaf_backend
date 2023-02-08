@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.4dadac79f9d8c701121320248bbad692.js"
+  "/precache-manifest.bcea35f236a45462d3182a64d2a1b4e9.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "shutaf-frontend"});
