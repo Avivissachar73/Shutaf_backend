@@ -66,15 +66,14 @@ function getUserFromExpressReq(req) {
   return user;
 }
 
-function getLoggedUser(req) {
-  const userFromSession = getUserFromExpressReq(req);
-  if (!userFromSession) return null;
-  return accountService.get(userFromSession._id);
+async function getLoggedUser(req) {
+  return updateAccuntSessionData(req);
 }
 
 async function updateAccuntSessionData(req) {
   const account = await accountService.get(getUserFromExpressReq(req)._id);
   req.session.userData.user = account;
+  return account;
 }
 
 
