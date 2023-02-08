@@ -67,7 +67,8 @@ function getUserFromExpressReq(req) {
 }
 
 async function getLoggedUser(req) {
-  return updateAccuntSessionData(req);
+  await updateAccuntSessionData(req);
+  return getUserFromExpressReq(req);
 }
 
 async function updateAccuntSessionData(req) {
