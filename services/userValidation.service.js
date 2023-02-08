@@ -15,7 +15,7 @@ function validateUserMinRole(user, role) {
 }
 
 function validateAppAdmin(user) {
-  return validateUserRole(user, role, userRoles.admin)
+  return validateUserRole(user, userRoles.admin)
 }
 
 function validateCreator(item, user) {

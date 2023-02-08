@@ -1,7 +1,7 @@
 const { userRoles, organizationRoles, organizationStatuses } = require('../../services/const.service');
 const { validateCreatorOrAdmin, validateCreatorOrOrgAdmin, validateUserOrgAdmin, validateAppAdmin } = require('../../services/userValidation.service');
 const { fixDeepQuery, createError } = require('../../services/utils.service');
-const { getUserFromExpressReq, updateAccuntSessionData } = require('../auth/auth.controller.js');
+const { getUserFromExpressReq, updateAccuntSessionData, getLoggedUser } = require('../auth/auth.controller.js');
 const { minimizeAccount } = require('../account/account.interface');
 const accountService = require('../account/account.service');
 const { minimizeOrg } = require('./organization.interface');
@@ -74,7 +74,8 @@ async function get(req, res, next) {
 
 async function query(req, res, next) {
   try {
-    const orgIds = getUserFromExpressReq(req).organizations?.filter(c => c.status !== organizationStatuses.declined).map(c => c._id) || [];
+    const user = await getLoggedUser(req);
+    const orgIds = user.organizations?.filter(c => [organizationStatuses.approved, organizationStatuses.pending].includes(c.status)).map(c => c._id) || [];
     const organizations = await organizationService.query(fixDeepQuery(req.query), orgIds);
     res.send(organizations);
   } catch(err) {
