@@ -30,7 +30,7 @@ async function update(req, res, next) {
     delete req.body.loggedAccountData;
 
     const isValid = await validateOrgAuth(req.body._id, req);
-    if (!isValid) return res.status(401).send(createError('noAuthToUEditOrganizationError', 401, 'Unauthorized, cant edit organization'));
+    if (!isValid) return res.status(401).send(createError('noAuthToEditOrganizationError', 401, 'Unauthorized, cant edit organization'));
 
     const updatedOrg = await organizationService.update(req.body);
     res.send(updatedOrg);
