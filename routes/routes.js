@@ -6,6 +6,7 @@ const { connectOrganizationRoutes } = require('../api/organization/organization.
 
 const { connectPostRoutes } = require('../api/post/post.routes');
 const { connectCommentRoutes } = require('../api/comment/comment.routes');
+const { connectBugRoutes } = require('../api/bug/bug.routes');
 
 const { connectShoppingListRoutes } = require('../api/shoppingList/shoppingList.routes');
 
@@ -20,6 +21,7 @@ module.exports = (server) => {
     connectOrganizationRoutes,
     connectPostRoutes,
     connectCommentRoutes,
+    connectBugRoutes,
     
     connectShoppingListRoutes
   ]

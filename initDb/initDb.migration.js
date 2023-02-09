@@ -26,6 +26,10 @@ const initDb = async (log = true) => {
       col: require('../api/comment/comment.service').col,
       items: require('../api/comment/comment.collection').defaultComments,
     },
+    { // bug collection
+      col: require('../api/bug/bug.service').col,
+      items: require('../api/bug/bug.collection').defaultBugs,
+    },
     { // shopping_list collection
       col: require('../api/shoppingList/shoppingList.service').col,
       items: require('../api/shoppingList/shoppingList.collection').defaultShoppingLists,
