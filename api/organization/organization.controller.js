@@ -57,16 +57,8 @@ async function get(req, res, next) {
   try {
     const id = req.params.id;
     const organization = await organizationService.get(id);
-    let loggedAccountData = null;
-    const members = await accountService.basicQuery({ 'organizations._id': organization._id.toString() });  
-    organization.members = members.items.map(c => {
-      const orgInAccount = c.organizations.find(o => o._id === id);
-      const currAccountData = {roles: orgInAccount.roles, status: orgInAccount.status}
-      if (c._id.toString() === getUserFromExpressReq(req)._id.toString()) loggedAccountData = currAccountData;
-      return {...minimizeAccount(c), ...currAccountData};
-    });
-    organization.loggedAccountData = loggedAccountData;
-    res.send(organization);
+    const orgToShow = await _getOrganizationToShow(organization, getUserFromExpressReq(req));
+    res.send(orgToShow);
   } catch(err) {
     next({msg: _errMsg(`Couldn't get organization`, 'get', err)});
   }
@@ -77,6 +69,7 @@ async function query(req, res, next) {
     const user = await getLoggedUser(req);
     const orgIds = user.organizations?.filter(c => [organizationStatuses.approved, organizationStatuses.pending].includes(c.status)).map(c => c._id) || [];
     const organizations = await organizationService.query(fixDeepQuery(req.query), orgIds);
+    organizations.items = await Promise.all(organizations.items.map(c => _getOrganizationToShow(c, getUserFromExpressReq(req))));
     res.send(organizations);
   } catch(err) {
     next({msg: _errMsg(`Couldn't query organizations`, 'query', err)});
@@ -137,4 +130,21 @@ module.exports = {
   add,
   inviteAccount,
   changeAccountStatusOnOrg
+}
+
+
+
+// better do with mongo agregation;
+async function _getOrganizationToShow(org, account) {
+  const id = org._id.toString();
+  let loggedAccountData = null;
+    const members = await accountService.basicQuery({ 'organizations._id': id });  
+    org.members = members.items.map(c => {
+      const orgInAccount = c.organizations.find(o => o._id === id);
+      const currAccountData = {roles: orgInAccount.roles, status: orgInAccount.status}
+      if (c._id.toString() === account._id) loggedAccountData = currAccountData;
+      return {...minimizeAccount(c), ...currAccountData};
+    });
+    org.loggedAccountData = loggedAccountData;
+    return org;
 }
