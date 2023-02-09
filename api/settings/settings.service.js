@@ -1,6 +1,6 @@
 const dbService = require('../../services/db.service');
 const config = require('../../config');
-const { userRoles } = require('../../services/const.service');
+const { userRoles, organizationRoles } = require('../../services/const.service');
 const { validateType, generateItemFromInterface } = require('../../services/interface.service');
 const { settings: settingsScheme } = require('./settings.interface');
 
@@ -9,7 +9,8 @@ const COLLECTION_NAME = 'settings';
 async function getConfig(filterBy) {
   return {
     env: config.env,
-    userRoles
+    userRoles,
+    organizationRoles
   };
 }
 async function getSettings(filterBy) {

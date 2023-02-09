@@ -79,10 +79,15 @@ async function query(req, res, next) {
 
 async function inviteAccount(req, res, next) {
   try {
-    const { accountId, organizationId } = req.params;
+    const { accountRole, accountId, organizationId } = req.params;
     const account = await accountService.get(accountId);
     const organization = await organizationService.get(organizationId);
-    const organizationToUser = {...minimizeOrg(organization), roles: [organizationRoles.user], status: organizationStatuses.pending, approverId: account._id.toString()};
+    const organizationToUser = {
+      ...minimizeOrg(organization),
+      roles: [Object.values(organizationRoles).includes(accountRole)? accountRole : organizationRoles.user],
+      status: organizationStatuses.pending,
+      approverId: account._id.toString()
+    };
     if (!account.organizations) account.organizations = [];
     const idxInUser = account.organizations.findIndex(c => c._id === organizationToUser._id);
     if (idxInUser === -1) account.organizations.push(organizationToUser);
