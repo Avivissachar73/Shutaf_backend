@@ -9,7 +9,7 @@ module.exports.account = {
   lastname: String,
   password: String,
   email: String,
-  gender: Enumerator(...Object.values(userGenders)),
+  gender: Enumerator(...Object.values(userGenders), ''),
   roles: [Enumerator(...Object.values(userRoles))],
   organizations: [{
     ...miniOrg,
