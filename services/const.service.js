@@ -20,6 +20,13 @@ const organizationStatuses = {
   left: 'left'
 }
 
+const userGenders = {
+  male: 'male',
+  female: 'female',
+  other: 'other',
+  whatEver: 'whatEver'
+}
+
 const FILE_STORAGE_PATH = 'public/storage';
 
 
@@ -28,5 +35,6 @@ module.exports = {
   userRolesMap,
   FILE_STORAGE_PATH,
   organizationRoles,
-  organizationStatuses
+  organizationStatuses,
+  userGenders,
 }

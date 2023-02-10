@@ -11,7 +11,8 @@ const defaultAccounts = [
     "password": "12345",
     "email": "Aviv@shual.com",
     "roles": ["admin"],
-    "organizations": [] // being updated in orgs col file
+    "organizations": [], // being updated in orgs col file
+    "gender": "male"
   },
   // {
   //   "username": "Noam2",
