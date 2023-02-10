@@ -1,4 +1,5 @@
 const { fixDeepQuery } = require('../../services/utils.service');
+const { getUserFromExpressReq, updateAccuntSessionData } = require('../auth/auth.controller');
 const accountService = require('./account.service');
 const _errMsg = require('../../services/utils.service').getCreateErrMsg('account.controller');
 
@@ -14,6 +15,9 @@ async function add(req, res, next) {
 async function update(req, res, next) {
   try {
     const updatedAccount = await accountService.update(req.body);
+    if (updatedAccount._id.toString() === getUserFromExpressReq(req)._id) {
+      await updateAccuntSessionData(req);
+    }
     res.send(updatedAccount);
   } catch(err) {
     next({msg: _errMsg(`Couldn't update account`, 'update', err)});
