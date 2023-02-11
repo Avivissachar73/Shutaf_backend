@@ -45,6 +45,22 @@ var getTimeStr = (() => {
     second: 6,
     mil: 7
   }
+  
+  return (time = new Date(), group = 'day') => {
+    time = new Date(time);
+    const timeMap = { y:0,m:0,w:0,d:0,h:0,min:0,s:0,mil:0 };
+    timeMap.y = time.getFullYear();
+    // if (timeGroupsMap[group] >= 2) timeMap.w = _getWeek(time);
+    if (timeGroupsMap[group] >= 1) timeMap.m = time.getMonth();
+    if (timeGroupsMap[group] >= 2) timeMap.d = _getWeek(time)*7;
+    if (timeGroupsMap[group] >= 3) timeMap.d = time.getDate();
+    if (timeGroupsMap[group] >= 4) timeMap.h = time.getHours();
+    if (timeGroupsMap[group] >= 5) timeMap.min = time.getMinutes();
+    if (timeGroupsMap[group] >= 6) timeMap.s = time.getSeconds();
+    if (timeGroupsMap[group] >= 7) timeMap.mil = time.getMilliseconds();
+    const res = new Date(timeMap.y, timeMap.m, timeMap.d, timeMap.h, timeMap.min, timeMap.s, timeMap.mil);
+    return res.getTime() + '';
+  }
   return (time = new Date(), group = 'day') => {
     time = new Date(time);
     let res = `Y.${time.getFullYear()}`;
@@ -57,6 +73,7 @@ var getTimeStr = (() => {
     return res;
   }
 })();
+
 
 
 function getEmptyTimeMap(from, to, value = {}, timeGroup = 'day') {
