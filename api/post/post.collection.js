@@ -6,7 +6,7 @@ module.exports = {
   defaultPosts: [
     {
       _id: ObjectId(),
-      "createdBy": accounts[0],
+      "createdBy": accounts[0]._id,
       "type": "reg",
       "content": "this is a post about this telling something about that",
       "organizationId": miniDefaultOrgs[0]._id

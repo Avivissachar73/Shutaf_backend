@@ -27,7 +27,7 @@ module.exports.miniUser = {
   _id: MongoId
 }
 
-organization.createdBy = module.exports.miniUser; // fixing for circular dependency;
+// organization.createdBy = module.exports.miniUser; // fixing for circular dependency;
 
 module.exports.minimizeAccount = (account) => ({
   username: account.username,

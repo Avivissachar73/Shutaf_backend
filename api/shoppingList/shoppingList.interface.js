@@ -1,6 +1,5 @@
 const { Range } = require("../../services/interface.service")
 const { MongoId } = require("../../services/interface.service/extraClasses")
-const { miniUser } = require("../account/account.interface")
 
 const shopingListInterface = {
   title: String,
@@ -17,7 +16,7 @@ const shopingListInterface = {
     }
   ],
   cart: [String], // productIds
-  _createdBy: miniUser,
+  _createdBy: MongoId,
   _organizationId: MongoId,
 }
 

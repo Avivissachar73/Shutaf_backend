@@ -5,8 +5,8 @@ const accounts = require('../account/account.collection').miniDefaultAccounts;
 module.exports = {
   defaultShoppingLists: [
     {
-      "createdBy": accounts[0],
-      "organizationId": miniDefaultOrgs[0]._id,
+      "_createdBy": accounts[0]._id,
+      "_organizationId": miniDefaultOrgs[0]._id,
 
       "title" : "SHOPPING!?",
       "type" : "smart",
