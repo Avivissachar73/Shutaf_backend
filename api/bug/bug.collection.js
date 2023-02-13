@@ -6,7 +6,7 @@ module.exports = {
   defaultBugs: [
     // {
     //   _id: ObjectId(),
-    //   "createdBy": accounts[0],
+    //   "_createdBy": accounts[0],
     //   "title": "some bug",
     //   "desc": "this is a bug telling something about a bug",
     // }

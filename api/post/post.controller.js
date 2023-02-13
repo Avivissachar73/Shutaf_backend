@@ -7,9 +7,7 @@ const _errMsg = require('../../services/utils.service').getCreateErrMsg('post.co
 
 async function add(req, res, next) {
   try {
-    const postToAdd = req.body;
-    postToAdd.organizationId = req.params.organizationId;
-    const addedPost = await postService.add(postToAdd);
+    const addedPost = await postService.add(req.body);
     res.send(addedPost);
   } catch(err) {
     next({msg: _errMsg(`Couldn't add post`, 'add', err)});

@@ -6,10 +6,10 @@ const accountInterface = require('../account/account.interface').miniUser;
 const activityInterface = {
   name: String,
   desc: String,
-  createdBy: accountInterface,
   with: [accountInterface],
   data: Any(),
   attachedId: MultiType(null, MongoId),
+  _createdBy: accountInterface,
 }
 
 module.exports = { activityInterface }

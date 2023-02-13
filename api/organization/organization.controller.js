@@ -79,12 +79,13 @@ async function query(req, res, next) {
 
 async function inviteAccount(req, res, next) {
   try {
-    const { accountRole, accountId, organizationId } = req.params;
+    const { organizationId } = req.params;
+    const { accountId, role } = req.body
     const account = await accountService.get(accountId);
     const organization = await organizationService.get(organizationId);
     const organizationToUser = {
       ...minimizeOrg(organization),
-      roles: [Object.values(organizationRoles).includes(accountRole)? accountRole : organizationRoles.user],
+      roles: [Object.values(organizationRoles).includes(role)? role : organizationRoles.user],
       status: organizationStatuses.pending,
       approverId: account._id.toString()
     };
@@ -101,14 +102,14 @@ async function inviteAccount(req, res, next) {
 
 async function changeAccountStatusOnOrg(req, res, next) {
   try {
-    const { accountId, organizationId } = req.params;
-    const { newStatus } = req.body;
+    const { organizationId } = req.params;
+    const { accountId, status } = req.body;
     const account = await accountService.get(accountId);
     // const organization = await organizationService.get(organizationId);
     const orgOnAccount = account.organizations.find(c => c._id === organizationId);
     const isRegValid = await validateOrgAuth(orgOnAccount._id, req);
     if (!isRegValid && (orgOnAccount.approverId !== getUserFromExpressReq(req)._id)) return res.status(401).json(createError('noAuthToChangeAccountOrganizationStatusError', 401, 'Unauthorized, cant change account status in organization'));
-    orgOnAccount.status = newStatus;
+    orgOnAccount.status = status;
     await accountService.update(account);
 
     if (accountId === getUserFromExpressReq(req)._id) await updateAccuntSessionData(req);
@@ -116,6 +117,26 @@ async function changeAccountStatusOnOrg(req, res, next) {
     res.send({message: 'seccess'});
   } catch(err) {
     next({msg: _errMsg(`Couldn't update user status on organization`, 'changeAccountStatusOnOrg', err)});
+  }
+}
+
+async function changeAccountRolesOnOrg(req, res, next) {
+  try {
+    const { organizationId } = req.params;
+    const { accountId, roles } = req.body;
+    const account = await accountService.get(accountId);
+    // const organization = await organizationService.get(organizationId);
+    const orgOnAccount = account.organizations.find(c => c._id === organizationId);
+    const isRegValid = await validateOrgAuth(orgOnAccount._id, req);
+    if (!isRegValid) return res.status(401).json(createError('noAuthToChangeAccountOrganizationRolesError', 401, 'Unauthorized, cant change account roles in organization'));
+    orgOnAccount.roles = roles;
+    await accountService.update(account);
+
+    if (accountId === getUserFromExpressReq(req)._id) await updateAccuntSessionData(req);
+
+    res.send({message: 'seccess'});
+  } catch(err) {
+    next({msg: _errMsg(`Couldn't update user roles on organization`, 'changeAccountRoleOnOrg', err)});
   }
 }
 
@@ -134,7 +155,8 @@ module.exports = {
   update,
   add,
   inviteAccount,
-  changeAccountStatusOnOrg
+  changeAccountStatusOnOrg,
+  changeAccountRolesOnOrg
 }
 
 

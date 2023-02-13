@@ -2,9 +2,9 @@
 const { MongoId } = require('../../services/interface.service/extraClasses')
 
 module.exports.organization = {
-  createdBy: 'miniUser', // being fixed in file account.interface for circular dependency bug
   name: String,
-  desc: String
+  desc: String,
+  _createdBy: 'miniUser', // being fixed in file account.interface for circular dependency bug
 }
 
 module.exports.miniOrg = {

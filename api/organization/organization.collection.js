@@ -7,7 +7,7 @@ const defaultOrgs = [
     "name": "Aviv`s organiation",
     "_id": ObjectId(),
     "desc": "Some organization that does some things",
-    "createdBy": accounts[0],
+    "_createdBy": accounts[0],
   }
 ];
 

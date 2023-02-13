@@ -16,8 +16,9 @@ const connectOrganizationRoutes = (server, rootBaseUrl) => {
   router.put('/', validateOrganization, organizationController.update);
   router.delete('/:id', validateOrganization, organizationController.remove);
 
-  router.post('/:organizationId/invite/:accountId', validateOrganization, organizationController.inviteAccount);
-  router.post('/:organizationId/update-status/:accountId', validateOrganization, organizationController.changeAccountStatusOnOrg);
+  router.post('/:organizationId/invite/', validateOrganization, organizationController.inviteAccount);
+  router.post('/:organizationId/update-status/', validateOrganization, organizationController.changeAccountStatusOnOrg);
+  router.post('/:organizationId/update-roles', validateOrganization, organizationController.changeAccountRolesOnOrg);
 
   server.use(accountBaseUrl, router);
 

@@ -6,9 +6,7 @@ const socketService = require('../../services/socket.service');
 
 async function add(req, res, next) {
   try {
-    const shoppingListAdd = req.body;
-    shoppingListAdd.organizationId = req.params.organizationId;
-    const addedPost = await shoppingListService.add(shoppingListAdd);
+    const addedPost = await shoppingListService.add(req.body);
     res.send(addedPost);
   } catch(err) {
     next({msg: _errMsg(`Couldn't add shoppingList`, 'add', err)});

@@ -14,9 +14,9 @@ async function getOrganizationStats(req, res, next) {
       const byUser = c.createdBy;
       // const userKey = byUser._id;
       const userKey = byUser.username;
-      const at = new Date(c.createdAt);
+      const at = new Date(c._createdAt);
       // const timeKey = `${at.getMonth()}/${at.getDate()}/${at.getFullYear()}`;
-      const timeKey = getTimeStr(c.createdAt, 'day');
+      const timeKey = getTimeStr(c._createdAt, 'day');
       if (!['productEaten', 'boughtProduct'].includes(c.name)) return acc;
       if (c.name === 'productEaten') {
         if (!acc.users.eatData[userKey]) acc.users.eatData[userKey] = { total: 0, healthMap: {}, healthAvg: 0, healthSum: 0 };
@@ -84,7 +84,7 @@ const activity = {
       "email" : "Aviv@shual.com",
       "_id" : "63da889e68db4c4a44305d87"
   },
-  "createdAt" : 1675293216540.0
+  "_createdAt" : 1675293216540.0
 }
 const activity2 = {
   "_id" : "63daf2026f6c6c56a0fd97d9",
@@ -108,7 +108,7 @@ const activity2 = {
       "email" : "Aviv@shual.com",
       "_id" : "63da889e68db4c4a44305d87"
   },
-  "createdAt" : 1675293186977.0
+  "_createdAt" : 1675293186977.0
 }
 
 module.exports = {

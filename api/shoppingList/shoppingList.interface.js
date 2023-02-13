@@ -4,7 +4,6 @@ const { miniUser } = require("../account/account.interface")
 
 const shopingListInterface = {
   title: String,
-  createdBy: miniUser,
   products: [
     {
       id: String,
@@ -17,8 +16,9 @@ const shopingListInterface = {
       category: String
     }
   ],
-  organizationId: MongoId,
-  cart: [String] // productIds
+  cart: [String], // productIds
+  _createdBy: miniUser,
+  _organizationId: MongoId,
 }
 
 module.exports = { shopingListInterface }
