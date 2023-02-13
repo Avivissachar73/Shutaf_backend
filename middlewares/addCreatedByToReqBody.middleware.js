@@ -5,8 +5,9 @@ const { getUserFromExpressReq } = require('../api/auth/auth.controller.js');
 function addCreatedByToReqBody(req, res, next) {
   noop(res);
   const user = getUserFromExpressReq(req);
-  const createdBy = user ? minimizeAccount(user) : { err: 'unknown user' };
-  req.body._createdBy = createdBy;
+  // const createdBy = user ? minimizeAccount(user) : { err: 'unknown user' };
+  const createdBy = user ? minimizeAccount(user) : null;
+  req.body._createdBy = createdBy._id;
   next();
 }
 
