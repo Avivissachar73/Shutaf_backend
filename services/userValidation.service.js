@@ -36,11 +36,11 @@ function validateCreatorOrOrgRole(item, user, role) {
 }
 
 function validateUserOrgRole(user, organizationId, role) {
-  const orgInUser = user?.organizations?.find(c => c._id === organizationId);
+  const orgInUser = user?.organizations?.find(c => c._id.toString() === organizationId.toString());
   return orgInUser?.roles?.includes(role);
 }
 
-function validateUserOrgAdmin(user, organizationId, role) {
+function validateUserOrgAdmin(user, organizationId) {
   return validateUserOrgRole(user, organizationId, organizationRoles.admin);
 }
 

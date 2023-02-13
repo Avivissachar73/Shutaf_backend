@@ -152,7 +152,7 @@ async function changeAccountRolesOnOrg(req, res, next) {
 async function validateOrgAuth(orgId, req) {
   if (validateAppAdmin(getUserFromExpressReq(req))) return true;
   const org = await organizationService.get(orgId);
-  return validateUserOrgAdmin(org, getUserFromExpressReq(req))
+  return validateUserOrgAdmin(getUserFromExpressReq(req), org._id)
 }
 
 
