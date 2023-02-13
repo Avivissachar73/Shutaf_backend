@@ -24,7 +24,7 @@ async function add(req, res, next) {
       approverId: account._id.toString()
     });
     await accountService.update(account);
-    req.session.userData.user = account;
+    await updateAccuntSessionData(req);
 
     res.send(addedOrg);
   } catch(err) {
