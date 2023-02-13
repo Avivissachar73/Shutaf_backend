@@ -77,7 +77,7 @@ async function query(req, res, next) {
     const user = await getLoggedUser(req);
     const orgIds = user.organizations?.filter(c => [organizationStatuses.approved, organizationStatuses.pending].includes(c.status)).map(c => c._id) || [];
     const organizations = await organizationService.query(fixDeepQuery(req.query), orgIds);
-    organizations.items = await Promise.all(organizations.items.map(c => _getOrganizationToShow(c, getUserFromExpressReq(req))));
+    organizations.items = await Promise.all(organizations.items.map(c => _getOrganizationToShow(c, getUserFromExpressReq(req), true)));
     res.send(organizations);
   } catch(err) {
     next({msg: _errMsg(`Couldn't query organizations`, 'query', err)});
@@ -89,8 +89,13 @@ async function inviteAccount(req, res, next) {
   try {
     const { organizationId } = req.params;
     const { accountId, role } = req.body
+
+    const isRegValid = await validateOrgAuth(organizationId, req);
+    if (!isRegValid) return res.status(401).json(createError('noAuthToInviteUserToOrganizationError', 401, 'Unauthorized, invite account to organization'));
+
     const account = await accountService.get(accountId);
     const organization = await organizationService.get(organizationId);
+    
     const organizationToUser = {
       ...minimizeOrg(organization),
       roles: [Object.values(organizationRoles).includes(role)? role : organizationRoles.user],
@@ -104,7 +109,7 @@ async function inviteAccount(req, res, next) {
     await accountService.update(account);
     res.send({message: 'seccess'});
   } catch(err) {
-    next({msg: _errMsg(`Couldn't invite account to organization`, 'invite', err)});
+    next({msg: _errMsg(`Couldn't invite account to organization`, 'inviteAccount', err)});
   }
 }
 
@@ -113,10 +118,11 @@ async function changeAccountStatusOnOrg(req, res, next) {
     const { organizationId } = req.params;
     const { accountId, status } = req.body;
     const account = await accountService.get(accountId);
-    // const organization = await organizationService.get(organizationId);
+    
     const orgOnAccount = account.organizations.find(c => c._id === organizationId);
     const isRegValid = await validateOrgAuth(orgOnAccount._id, req);
     if (!isRegValid && (orgOnAccount.approverId !== getUserFromExpressReq(req)._id)) return res.status(401).json(createError('noAuthToChangeAccountOrganizationStatusError', 401, 'Unauthorized, cant change account status in organization'));
+    
     orgOnAccount.status = status;
     await accountService.update(account);
 
@@ -144,15 +150,33 @@ async function changeAccountRolesOnOrg(req, res, next) {
 
     res.send({message: 'seccess'});
   } catch(err) {
-    next({msg: _errMsg(`Couldn't update user roles on organization`, 'changeAccountRoleOnOrg', err)});
+    next({msg: _errMsg(`Couldn't update user roles on organization`, 'changeAccountRolesOnOrg', err)});
   }
 }
 
+async function removeAccountFromOrg(req, res, next) {
+  try {
+    const { organizationId } = req.params;
+    const { accountId } = req.body
+
+    const isRegValid = await validateOrgAuth(organizationId, req);
+    if (!isRegValid) return res.status(401).json(createError('noAuthToRemoveUserFromOrganizationError', 401, 'Unauthorized, cant remove account from organization'));
+
+    const account = await accountService.get(accountId);
+    const idxInUser = account.organizations.findIndex(c => c._id === organizationId);
+    if (idxInUser !== -1) account.organizations.splice(idxInUser, 1);
+    await accountService.update(account);
+    if (accountId === getUserFromExpressReq(req)._id) await updateAccuntSessionData(req);
+    res.send({message: 'seccess'});
+  } catch(err) {
+    next({msg: _errMsg(`Couldn't remove account from organization`, 'removeAccountFromOrg', err)});
+  }
+}
 
 async function validateOrgAuth(orgId, req) {
   if (validateAppAdmin(getUserFromExpressReq(req))) return true;
-  const org = await organizationService.get(orgId);
-  return validateUserOrgAdmin(getUserFromExpressReq(req), org._id)
+  // const org = await organizationService.get(orgId);
+  return validateUserOrgAdmin(getUserFromExpressReq(req), orgId);
 }
 
 
@@ -164,16 +188,18 @@ module.exports = {
   add,
   inviteAccount,
   changeAccountStatusOnOrg,
-  changeAccountRolesOnOrg
+  changeAccountRolesOnOrg,
+  removeAccountFromOrg
 }
 
 
 
 // better do with mongo agregation;
-async function _getOrganizationToShow(org, account) {
+async function _getOrganizationToShow(org, account, isOnlyApprovedAccounts = false) {
   const id = org._id.toString();
   let loggedAccountData = null;
-    const members = await accountService.basicQuery({ 'organizations._id': id });  
+    let members = await accountService.basicQuery({ 'organizations._id': id });
+    if (isOnlyApprovedAccounts) members.items = members.items.filter(c => c.organizations.find(_ => _._id.toString() === org._id.toString()).status === organizationStatuses.approved)
     org.members = members.items.map(c => {
       const orgInAccount = c.organizations.find(o => o._id === id);
       const currAccountData = {roles: orgInAccount.roles, status: orgInAccount.status}
