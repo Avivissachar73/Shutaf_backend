@@ -6,7 +6,7 @@ function addCreatedByToReqBody(req, res, next) {
   noop(res);
   const user = getUserFromExpressReq(req);
   const createdBy = user ? minimizeAccount(user) : { err: 'unknown user' };
-  req.body.createdBy = createdBy;
+  req.body._createdBy = createdBy;
   next();
 }
 

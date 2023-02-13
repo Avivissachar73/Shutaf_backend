@@ -4,6 +4,9 @@ const config = require('../config');
 const DB_NAME = config.db.name;
 const DB_URL = config.db.url;
 
+const CREATED_KEY = '_createdAt';
+const UPDATED_KEY = '_updatedAt';
+
 module.exports = {
     connectToDb,
     getCollection,
@@ -98,14 +101,14 @@ async function save(collectionName, item) {
   }
   
 async function add(collectionName, item) {
-  item.createdAt = Date.now();
+  item[CREATED_KEY] = Date.now();
   const collection = await getCollection(collectionName);
   await collection.insertOne(item);
   return item;
 }
 
 async function update(collectionName, item) {
-  item.updatedAt = Date.now();
+  item[UPDATED_KEY] = Date.now();
   const collection = await getCollection(collectionName);
   item._id = ObjectId(item._id);
   await collection.updateOne({"_id": item._id}, {$set : item});
@@ -123,7 +126,7 @@ async function remove(collectionName, id) {
 }
 
 async function insert(collectionName, items) {
-    items.forEach(item => item.createdAt = Date.now());
+    items.forEach(item => item[CREATED_KEY] = Date.now());
     const collection = await getCollection(collectionName);
     await collection.insertMany(items);
     return items;
