@@ -18,10 +18,10 @@ async function remove(shopingListId) {
 async function get(shopingListId) {
   return await dbService.get(COLLECTION_NAME, shopingListId);
 }
-async function query(filterBy, organizationId) {
+async function query(filterBy, _organizationId) {
   const criteria = {
     ...dbService.buildBasicSearchFilterBy(filterBy.filter, ['title']),
-    organizationId
+    _organizationId
   }
   return dbService.query(COLLECTION_NAME, criteria, filterBy.sort, filterBy.pagination);
 }

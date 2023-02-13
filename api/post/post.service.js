@@ -22,10 +22,10 @@ async function get(postId) {
   post.comments = await commentService.query({ filter: { params: { attachedId: 'postId' } } });
   return post;
 }
-async function query(filterBy, organizationId) {
+async function query(filterBy, _organizationId) {
   const criteria = {
     ...dbService.buildBasicSearchFilterBy(filterBy.filter, ['content']),
-    organizationId
+    _organizationId
   }
   return dbService.query(COLLECTION_NAME, criteria, filterBy.sort, filterBy.pagination);
 }

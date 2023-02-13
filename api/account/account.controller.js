@@ -1,5 +1,6 @@
 const { fixDeepQuery } = require('../../services/utils.service');
 const { getUserFromExpressReq, updateAccuntSessionData } = require('../auth/auth.controller');
+const organizationService = require('../organization/organization.service');
 const accountService = require('./account.service');
 const _errMsg = require('../../services/utils.service').getCreateErrMsg('account.controller');
 
@@ -38,6 +39,10 @@ async function get(req, res, next) {
   try {
     const id = req.params.id;
     const account = await accountService.get(id);
+    account.organizations = await Promise.all(account.organizations.map(async c => ({
+      ...c,
+      name: (await organizationService.get(c._id)).name
+    })));
     res.send(account);
   } catch(err) {
     next({msg: _errMsg(`Couldn't get account`, 'get', err)});

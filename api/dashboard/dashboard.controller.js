@@ -62,55 +62,6 @@ async function getOrganizationStats(req, res, next) {
   }
 }
 
-const activity = {
-  "_id" : "63daf2206f6c6c56a0fd97de",
-  "name" : "productEaten",
-  "desc" : "",
-  "with" : [],
-  "data" : {
-      "listId" : "63da889e68db4c4a44305d8d",
-      "items" : [ 
-          {
-              "product" : "avodado",
-              "healthRate" : 10,
-              "count" : 1,
-              "price" : 3
-          }
-      ]
-  },
-  "attachedId" : "63da889e68db4c4a44305d89",
-  "createdBy" : {
-      "username" : "Aviv",
-      "email" : "Aviv@shual.com",
-      "_id" : "63da889e68db4c4a44305d87"
-  },
-  "_createdAt" : 1675293216540.0
-}
-const activity2 = {
-  "_id" : "63daf2026f6c6c56a0fd97d9",
-  "name" : "boughtProduct",
-  "desc" : "",
-  "with" : [],
-  "data" : {
-      "listId" : "63da889e68db4c4a44305d8d",
-      "items" : [ 
-          {
-              "product" : "avodado",
-              "healthRate" : 10,
-              "count" : 1,
-              "price" : 3
-          }
-      ]
-  },
-  "attachedId" : "63da889e68db4c4a44305d89",
-  "createdBy" : {
-      "username" : "Aviv",
-      "email" : "Aviv@shual.com",
-      "_id" : "63da889e68db4c4a44305d87"
-  },
-  "_createdAt" : 1675293186977.0
-}
-
 module.exports = {
   getOrganizationStats
 }

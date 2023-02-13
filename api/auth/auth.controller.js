@@ -1,4 +1,5 @@
 const { getSocket } = require('../../services/socket.service');
+const { minimizeAccount } = require('../account/account.interface');
 const accountService = require('../account/account.service');
 const authService = require('./auth.service');
 const _errMsg = require('../../services/utils.service').getCreateErrMsg('auth.controller');
@@ -77,6 +78,14 @@ async function updateAccuntSessionData(req) {
   return account;
 }
 
+// async function putCreatedByOnItem(item) {
+//   const accountId = item._createdBy?._id;
+//   const account = await accountService.get(accountId);
+//   const miniAccount = minimizeAccount(account);
+//   item.createdBy = miniAccount;
+//   return item;
+// }
+
 
 module.exports = {
   getLoggedUserInfo,
@@ -85,5 +94,6 @@ module.exports = {
   signup,
   getUserFromExpressReq,
   updateAccuntSessionData,
-  getLoggedUser
+  getLoggedUser,
+  // putCreatedByOnItem
 }

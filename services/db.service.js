@@ -1,4 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
+const { minimizeAccount } = require('../api/account/account.interface');
 
 const config = require('../config');
 const DB_NAME = config.db.name;
@@ -85,6 +86,8 @@ async function query(collectionName, criteria = {}, sortBy = {}, pagination = { 
     if (pagination.page && pagination.limit) itemsPrm = itemsPrm.skip(pagination.page * pagination.limit);
     if (pagination.limit) itemsPrm = itemsPrm.limit(pagination.limit);
     const items = await itemsPrm.toArray();
+
+    await Promise.all(items.map(putCreatedByOnItem));
     
     return { items, total };
 }
@@ -92,11 +95,12 @@ async function query(collectionName, criteria = {}, sortBy = {}, pagination = { 
 async function get(collectionName, id) {
     const collection = await getCollection(collectionName)
     const item = await collection.findOne({ "_id": ObjectId(id) });
+    await putCreatedByOnItem(item);
     return item;
 }
 
 async function save(collectionName, item) {
-    if (item._id) return add(collectionName, item);
+    if (!item._id) return add(collectionName, item);
     return update(collectionName ,item);
   }
   
@@ -104,6 +108,7 @@ async function add(collectionName, item) {
   item[CREATED_KEY] = Date.now();
   const collection = await getCollection(collectionName);
   await collection.insertOne(item);
+  await putCreatedByOnItem(item);
   return item;
 }
 
@@ -112,6 +117,7 @@ async function update(collectionName, item) {
   const collection = await getCollection(collectionName);
   item._id = ObjectId(item._id);
   await collection.updateOne({"_id": item._id}, {$set : item});
+  await putCreatedByOnItem(item);
   return item;
 }
 
@@ -129,6 +135,7 @@ async function insert(collectionName, items) {
     items.forEach(item => item[CREATED_KEY] = Date.now());
     const collection = await getCollection(collectionName);
     await collection.insertMany(items);
+    await Promise.all(items.map(putCreatedByOnItem));
     return items;
 }
 
@@ -142,3 +149,13 @@ function buildBasicSearchFilterBy(filterBy = { search: '', params: {} }, searchO
         ...(filterBy?.params || {})
     };
 }
+
+
+async function putCreatedByOnItem(item) {
+    const accountId = item._createdBy;
+    if (!accountId) return;
+    const account = await get('account', accountId);
+    const miniAccount = account? minimizeAccount(account) : null;
+    item.createdBy = miniAccount;
+}
+  
