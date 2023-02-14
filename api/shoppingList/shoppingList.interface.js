@@ -1,7 +1,8 @@
 const { Range } = require("../../services/interface.service")
-const { MongoId } = require("../../services/interface.service/extraClasses")
+const { basicSchemeWithOrg } = require("../basicScheme")
 
 const shopingListInterface = {
+  ...basicSchemeWithOrg,
   title: String,
   products: [
     {
@@ -16,8 +17,6 @@ const shopingListInterface = {
     }
   ],
   cart: [String], // productIds
-  _createdBy: MongoId,
-  _organizationId: MongoId,
 }
 
 module.exports = { shopingListInterface }

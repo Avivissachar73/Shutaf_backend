@@ -1,15 +1,17 @@
 const dbService = require('../../services/db.service');
-const { validateType } = require('../../services/interface.service');
+const { validateType, cleanItem } = require('../../services/interface.service');
 const activityScheme = require('./activity.interface').activityInterface;
 
 const COLLECTION_NAME = 'activity';
 
 async function add(activity) {
-  validateType(activityScheme, activity, true);
+  cleanItem(activity, activityScheme);
+  validateType(activityScheme, activity, true, true);
   return dbService.add(COLLECTION_NAME, activity);
 }
 async function update(activity) {
-  validateType(activityScheme, activity, true);
+  cleanItem(activity, activityScheme);
+  validateType(activityScheme, activity, true, true);
   return dbService.update(COLLECTION_NAME, activity);
 }
 async function remove(activityId) {

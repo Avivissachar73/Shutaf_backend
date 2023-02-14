@@ -1,14 +1,17 @@
 const dbService = require('../../services/db.service');
-const { validateType } = require('../../services/interface.service');
+const { validateType, cleanItem } = require('../../services/interface.service');
 const { account: accountScheme } = require('./account.interface');
 
 const COLLECTION_NAME = 'account';
 
 async function add(account) {
-  validateType(accountScheme, account, true);
+  cleanItem(account, accountScheme);
+  validateType(accountScheme, account, true, true);
   return dbService.add(COLLECTION_NAME, account);
 }
 async function update(account) {
+  cleanItem(account, accountScheme);
+  validateType(accountScheme, account, true, true);
   return dbService.update(COLLECTION_NAME, account);
 }
 async function remove(accountId) {

@@ -10,7 +10,14 @@ else if (ENV === 'production') config = require('./prod');
 
 config = {
   ...config,
-  env: ENV
+  env: ENV,
+  jwt: {
+    secret: 'some_secret_string',
+    options: {
+      expiresIn: '5h',
+      algorithm: 'HS256'
+    }
+  }
 }
 
 module.exports = config;

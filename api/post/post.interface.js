@@ -1,10 +1,9 @@
-const { MongoId } = require("../../services/interface.service/extraClasses");
+const { basicSchemeWithOrg } = require("../basicScheme");
 
 const postInterface = {
+  ...basicSchemeWithOrg,
   type: String,
-  content: String,
-  _createdBy: MongoId,
-  _organizationId: MongoId
+  content: String
 }
 
 module.exports = { postInterface }

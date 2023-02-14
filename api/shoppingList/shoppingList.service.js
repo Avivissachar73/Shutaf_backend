@@ -1,15 +1,17 @@
 const dbService = require('../../services/db.service');
-const { validateType } = require('../../services/interface.service');
+const { validateType, cleanItem } = require('../../services/interface.service');
 const shoppingListScheme = require('./shoppingList.interface').shopingListInterface;
 
 const COLLECTION_NAME = 'shopping_list';
 
 async function add(shoppingList) {
-  validateType(shoppingListScheme, shoppingList, true);
+  cleanItem(shoppingList, shoppingListScheme);
+  validateType(shoppingListScheme, shoppingList, true, true);
   return dbService.add(COLLECTION_NAME, shoppingList);
 }
 async function update(shoppingList) {
-  validateType(shoppingListScheme, shoppingList, true);
+  cleanItem(shoppingList, shoppingListScheme);
+  validateType(shoppingListScheme, shoppingList, true, true);
   return dbService.update(COLLECTION_NAME, shoppingList);
 }
 async function remove(shopingListId) {

@@ -1,9 +1,11 @@
 const { organizationRoles, userRoles, organizationStatuses, userGenders } = require('../../services/const.service')
 const { Enumerator } = require('../../services/interface.service')
 const { MongoId } = require('../../services/interface.service/extraClasses')
+const { basicScheme } = require('../basicScheme')
 const { miniOrg, organization } = require('../organization/organization.interface')
 
 module.exports.account = {
+  ...basicScheme,
   username: String,
   firstname: String,
   lastname: String,
@@ -20,6 +22,7 @@ module.exports.account = {
     approverId: MongoId
   }]
 }
+delete module.exports.account._createdBy;
 
 module.exports.miniUser = {
   username: String,

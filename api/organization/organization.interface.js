@@ -1,11 +1,12 @@
 // const { miniUser } = require("../account/account.interface")
-const { MongoId } = require('../../services/interface.service/extraClasses')
+const { MongoId } = require('../../services/interface.service/extraClasses');
+const { basicSchemeWithCreator } = require('../basicScheme');
 
 module.exports.organization = {
+  ...basicSchemeWithCreator,
   name: String,
   desc: String,
   // _createdBy: 'miniUser', // being fixed in file account.interface for circular dependency bug
-  _createdBy: MongoId
 }
 
 module.exports.miniOrg = {

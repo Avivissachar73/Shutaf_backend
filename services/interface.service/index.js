@@ -11,5 +11,10 @@ module.exports = {
     MultiType: (...types) => new MultiType(...types),
     Any: () => new Any(),
     BaseTypeClass,
-    UseType
+    UseType,
+
+    cleanItem: (item, interface) => {
+        const interfaceKeys = Object.keys(interface);
+        for (let key in item) if (!interfaceKeys.includes(key)) {delete item[key];}
+    }
 };

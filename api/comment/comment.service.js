@@ -1,15 +1,17 @@
 const dbService = require('../../services/db.service');
-const { validateType } = require('../../services/interface.service');
+const { validateType, cleanItem } = require('../../services/interface.service');
 const commentScheme = require('./comment.interface').commentInterface;
 
 const COLLECTION_NAME = 'comment';
 
 async function add(comment) {
-  validateType(commentScheme, comment, true);
+  cleanItem(comment, commentScheme);
+  validateType(commentScheme, comment, true, true);
   return dbService.add(COLLECTION_NAME, comment);
 }
 async function update(comment) {
-  validateType(commentScheme, comment, true);
+  cleanItem(comment, commentScheme);
+  validateType(commentScheme, comment, true, true);
   return dbService.update(COLLECTION_NAME, comment);
 }
 async function remove(commentId) {

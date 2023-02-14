@@ -1,16 +1,19 @@
 const { ObjectId } = require('mongodb');
 const dbService = require('../../services/db.service');
-const { validateType } = require('../../services/interface.service');
+const { validateType, cleanItem } = require('../../services/interface.service');
 const { organization: organizationScheme } = require('./organization.interface');
 
 const COLLECTION_NAME = 'organization';
 
 async function add(organization) {
-  validateType(organizationScheme, organization, true);
+  cleanItem(organization, organizationScheme);
+  validateType(organizationScheme, organization, true, true);
+  console.log('clean and validatedItem!', organization);
   return dbService.add(COLLECTION_NAME, organization);
 }
 async function update(organization) {
-  validateType(organizationScheme, organization, true);
+  cleanItem(organization, organizationScheme);
+  validateType(organizationScheme, organization, true, true);
   return dbService.update(COLLECTION_NAME, organization);
 }
 async function remove(orgId) {

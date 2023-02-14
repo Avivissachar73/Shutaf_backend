@@ -1,14 +1,17 @@
 const dbService = require('../../services/db.service');
-const { validateType } = require('../../services/interface.service');
+const { validateType, cleanItem } = require('../../services/interface.service');
 const { bugInterface } = require('./bug.interface');
 
 const COLLECTION_NAME = 'bug';
 
 async function add(bug) {
-  validateType(bugInterface, bug, true);
+  cleanItem(bug, bugInterface);
+  validateType(bugInterface, bug, true, true);
   return dbService.add(COLLECTION_NAME, bug);
 }
 async function update(bug) {
+  cleanItem(bug, bugInterface);
+  validateType(bugInterface, bug, true, true);
   return dbService.update(COLLECTION_NAME, bug);
 }
 async function remove(bugId) {

@@ -14,15 +14,12 @@ async function add(req, res, next) {
 
     const account = await accountService.get(addedOrg.createdBy._id);
     if (!account.organizations) account.organizations = [];
-    account.organizations.push({
-      ...minimizeOrg(addedOrg),
-      roles: [
-        organizationRoles.admin,
-        organizationRoles.creator
-      ],
-      status: organizationStatuses.approved,
-      approverId: account._id.toString()
-    });
+    account.organizations.push(_createAccountOrgItem(
+      addedOrg,
+      [organizationRoles.admin, organizationRoles.creator,],
+      organizationStatuses.approved,
+      account
+    ));
     await accountService.update(account);
     await updateAccuntSessionData(req);
 
@@ -34,9 +31,6 @@ async function add(req, res, next) {
 
 async function update(req, res, next) {
   try {
-    delete req.body.members;
-    delete req.body.loggedAccountData;
-
     const isValid = await validateOrgAuth(req.body._id, req);
     if (!isValid) return res.status(401).send(createError('noAuthToEditOrganizationError', 401, 'Unauthorized, cant edit organization'));
 
@@ -96,12 +90,13 @@ async function inviteAccount(req, res, next) {
     const account = await accountService.get(accountId);
     const organization = await organizationService.get(organizationId);
     
-    const organizationToUser = {
-      ...minimizeOrg(organization),
-      roles: [Object.values(organizationRoles).includes(role)? role : organizationRoles.user],
-      status: organizationStatuses.pending,
-      approverId: account._id.toString()
-    };
+    const organizationToUser = _createAccountOrgItem(
+      organization,
+      [Object.values(organizationRoles).includes(role)? role : organizationRoles.user],
+      organizationStatuses.pending,
+      account
+    );
+
     if (!account.organizations) account.organizations = [];
     const idxInUser = account.organizations.findIndex(c => c._id === organizationToUser._id);
     if (idxInUser === -1) account.organizations.push(organizationToUser);
@@ -124,6 +119,7 @@ async function changeAccountStatusOnOrg(req, res, next) {
     if (!isRegValid && (orgOnAccount.approverId !== getUserFromExpressReq(req)._id)) return res.status(401).json(createError('noAuthToChangeAccountOrganizationStatusError', 401, 'Unauthorized, cant change account status in organization'));
     
     orgOnAccount.status = status;
+    orgOnAccount.updatedAt = Date.now();
     await accountService.update(account);
 
     if (accountId === getUserFromExpressReq(req)._id) await updateAccuntSessionData(req);
@@ -143,7 +139,9 @@ async function changeAccountRolesOnOrg(req, res, next) {
     const orgOnAccount = account.organizations.find(c => c._id === organizationId);
     const isRegValid = await validateOrgAuth(orgOnAccount._id, req);
     if (!isRegValid) return res.status(401).json(createError('noAuthToChangeAccountOrganizationRolesError', 401, 'Unauthorized, cant change account roles in organization'));
+    
     orgOnAccount.roles = roles;
+    orgOnAccount.updatedAt = Date.now();
     await accountService.update(account);
 
     if (accountId === getUserFromExpressReq(req)._id) await updateAccuntSessionData(req);
@@ -208,4 +206,15 @@ async function _getOrganizationToShow(org, account, isOnlyApprovedAccounts = fal
     });
     org.loggedAccountData = loggedAccountData;
     return org;
+}
+
+function _createAccountOrgItem(org, roles, status, approver) {
+  return {
+    ...minimizeOrg(org),
+    creatdAt: Date.now(),
+    updatedAt: Date.now(),
+    roles,
+    status,
+    approverId: approver._id.toString()
+  }
 }
