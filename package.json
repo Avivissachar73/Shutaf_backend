@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "_start": "SET NODE_ENV=development && nodemon app.js",
+    "_start": "node app.js",
+    "start": "SET NODE_ENV=development && nodemon app.js",
     "init_db": "SET NODE_ENV=development && node ./initDb/index.js",
     "test": "jest $1.test || jest",
     "deploy": "git push heroku master"

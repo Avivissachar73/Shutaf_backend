@@ -15,7 +15,6 @@ async function add(req, res, next) {
 
 async function update(req, res, next) {
   try {
-    delete req.body.comments;
     const updatedShoppingList = await shoppingListService.update(req.body);
     socketService.getIO().emit(`update-shoppingList-${updatedShoppingList._id}`, {shoppingList: updatedShoppingList});
     res.send(updatedShoppingList);

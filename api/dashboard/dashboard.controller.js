@@ -1,4 +1,3 @@
-const organizationService = require('../organization/organization.service');
 const _errMsg = require('../../services/utils.service').getCreateErrMsg('organization.controller');
 
 const activityService = require('../activity/activity.service.js');
@@ -7,14 +6,12 @@ const { getTimeStr } = require('./dashboard.service');
 async function getOrganizationStats(req, res, next) {
   try {
     const organizationId = req.params.organizationId;
-    const org = await organizationService.get(organizationId);
     const relevantActivityRes = await activityService.query({ filter: { params: { attachedId: organizationId }} });
     const activities = relevantActivityRes.items;
     const stats = activities.reduce((acc, c) => {
       const byUser = c.createdBy;
       // const userKey = byUser._id;
       const userKey = byUser.username;
-      const at = new Date(c._createdAt);
       // const timeKey = `${at.getMonth()}/${at.getDate()}/${at.getFullYear()}`;
       const timeKey = getTimeStr(c._createdAt, 'day');
       if (!['productEaten', 'boughtProduct'].includes(c.name)) return acc;
