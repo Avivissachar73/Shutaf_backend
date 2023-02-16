@@ -1,3 +1,4 @@
+const { validateAppAdmin } = require('../../services/userValidation.service');
 const { fixDeepQuery } = require('../../services/utils.service');
 const { getUserFromExpressReq, updateAccuntSessionData } = require('../auth/auth.controller');
 const organizationService = require('../organization/organization.service');
@@ -15,7 +16,14 @@ async function add(req, res, next) {
 
 async function update(req, res, next) {
   try {
-    const updatedAccount = await accountService.update(req.body);
+    const accountToEdit = req.body;
+    // dont let user edit its roles or organizations, can use postman or such to edit those params and give theselves full admin system permissions; 
+    if (!validateAppAdmin(getUserFromExpressReq(req))) {
+      delete accountToEdit.roles;
+      delete accountToEdit.organizations;
+    }
+
+    const updatedAccount = await accountService.update(accountToEdit);
     if (updatedAccount._id.toString() === getUserFromExpressReq(req)._id) {
       await updateAccuntSessionData(req);
     }
@@ -41,7 +49,7 @@ async function get(req, res, next) {
     const account = await accountService.get(id);
     account.organizations = await Promise.all(account.organizations.map(async c => ({
       ...c,
-      name: (await organizationService.get(c._id)).name
+      name: (await organizationService.get(c._id))?.name
     })));
     res.send(account);
   } catch(err) {
