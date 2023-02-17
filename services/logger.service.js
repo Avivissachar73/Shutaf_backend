@@ -1,14 +1,14 @@
 
 
 
-function log(type, msg) {
+function log(type, msg, data) {
   console.log(`LOGGER_${type}: ${msg}`);
 }
 
 
 module.exports = {
-  info(msg) {log('INFO', msg)},
-  error(msg) {log('ERROR', msg)},
-  warn(msg) {log('WARNING', msg)},
-  debug(msg) {log('DEBUG', msg)},
+  info(msg, data) {log('INFO', msg, data)},
+  error(msg, data) {log('ERROR', msg, data)},
+  warn(msg, data) {log('WARNING', msg, data)},
+  debug(msg, data) {log('DEBUG', msg, data)},
 }

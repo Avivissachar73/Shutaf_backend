@@ -1,6 +1,6 @@
 const dbService = require('../../services/db.service');
 const { validateType, cleanItem } = require('../../services/interface.service');
-const { account: accountScheme } = require('./account.interface');
+const { account: accountScheme, minimizeAccount } = require('./account.interface');
 
 const COLLECTION_NAME = 'account';
 
@@ -33,6 +33,13 @@ async function basicQuery(criteria, sort, pagination) {
   return dbService.query(COLLECTION_NAME, criteria, sort, pagination);
 }
 
+
+async function blockAccount(accountId) {
+  const account = await get(accountId);
+  account.blocked = true;
+  await update(account);
+}
+
 module.exports = {
   col: COLLECTION_NAME,
   add,
@@ -40,5 +47,6 @@ module.exports = {
   remove,
   query,
   get,
-  basicQuery
+  basicQuery,
+  blockAccount
 }

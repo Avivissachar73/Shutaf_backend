@@ -23,6 +23,16 @@ async function _doLogin(req, res) {
   return userData;
 }
 
+async function doLogout(req, res) {
+  const token = req.cookies.token;
+  // res.clearCookie(token);
+  res.cookie('token', '');
+  req.session.userData = null;
+  // getSocket(req.session.socketId).user = null; // TODO;
+  // req.session.socketId = null;
+  await authService.logout(token);
+}
+
 async function login(req, res, next) {
   try {
     const userData = await _doLogin(req, res);
@@ -47,19 +57,15 @@ async function signup(req, res, next) {
 
 async function logout(req, res, next) {
   try {
-    const token = req.cookies.token;
-    // res.clearCookie(token);
-    res.cookie('token', '');
-    req.session.userData = null;
-    // getSocket(req.session.socketId).user = null; // TODO;
-    // req.session.socketId = null;
-    await authService.logout(token);
+    await doLogout(req, res);
 
     res.send({message: 'logout successfully'});
   } catch(err) {
     next({msg: _errMsg('Couldnt logout', 'logout', err)});
   }
 }
+
+
 
 function getUserFromExpressReq(req) {
   const user = req?.session?.userData?.user;
@@ -78,6 +84,7 @@ async function updateAccuntSessionData(req) {
   return account;
 }
 
+
 // async function putCreatedByOnItem(item) {
 //   const accountId = item._createdBy?._id;
 //   const account = await accountService.get(accountId);
@@ -95,5 +102,6 @@ module.exports = {
   getUserFromExpressReq,
   updateAccuntSessionData,
   getLoggedUser,
+  doLogout
   // putCreatedByOnItem
 }

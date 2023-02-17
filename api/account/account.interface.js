@@ -20,7 +20,8 @@ module.exports.account = {
     ],
     "status" : Enumerator(...Object.values(organizationStatuses)),
     approverId: MongoId
-  }]
+  }],
+  blocked: Boolean
 }
 delete module.exports.account._createdBy;
 

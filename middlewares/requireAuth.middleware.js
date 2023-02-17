@@ -13,6 +13,7 @@ async function requireAuth(req, res, next) {
   try {
     const decodedUser = await tokenService.verify(token);
     req.user = decodedUser;
+    // if (!req.session.userData) req.session.userData = { user: decodedUser, token };
     next();
   } catch(err) {
     endIt();

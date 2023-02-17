@@ -6,11 +6,12 @@ const { account: accountScheme } = require('../account/account.interface');
 const { col: accountCol } = require('../account/account.service.js');
 
 async function login({username, password}) {
-  if (!username || !password) return {err: 'Required username and password!'};
+  if (!username || !password) return {err: 'requiredUsernameAndPasswordError', msg: 'Required username and password!'};
 
   const collection = await dbService.getCollection(accountCol);
   const account = await collection.findOne({ username });
-  if (!account || (account.password !== password)) return {err: 'Invalid username or password'};
+  if (!account || (account.password !== password)) return {err: 'invalidUsernameOrPasswordError', msg: 'Invalid username or password'};
+  if (account.blocked) return {err: 'accountBlockedError', msg: 'Account is blocked'};
 
   delete account.password;
 
