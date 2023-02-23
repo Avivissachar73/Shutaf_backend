@@ -16,7 +16,8 @@ async function add(req, res, next) {
 async function update(req, res, next) {
   try {
     const updatedShoppingList = await shoppingListService.update(req.body);
-    socketService.getIO().emit(`update-shoppingList-${updatedShoppingList._id}`, {shoppingList: updatedShoppingList});
+    // socketService.getIO().emit(`update-shoppingList-${updatedShoppingList._id}`, {shoppingList: updatedShoppingList});
+    socketService.getSocket(req.session.socketId).broadcast.emit(`update-shoppingList-${updatedShoppingList._id}`, {shoppingList: updatedShoppingList});
     res.send(updatedShoppingList);
   } catch(err) {
     next({msg: _errMsg(`Couldn't update shoppingList`, 'update', err)});
