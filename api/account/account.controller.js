@@ -23,13 +23,15 @@ async function update(req, res, next) {
     if (!validateAppAdmin(getUserFromExpressReq(req))) {
       const oldAccount = await accountService.get(accountToEdit._id);
       if (
-        (accountToEdit.roles && (JSON.stringify(oldAccount.roles) !== JSON.stringify(accountToEdit.roles))) ||
-        (accountToEdit.organizations && (JSON.stringify(oldAccount.organizations) !== JSON.stringify(accountToEdit.organizations)))
+        ('roles' in accountToEdit && (JSON.stringify(oldAccount.roles) !== JSON.stringify(accountToEdit.roles))) ||
+        ('organizations' in accountToEdit && (JSON.stringify(oldAccount.organizations) !== JSON.stringify(accountToEdit.organizations))) ||
+        ('blocked' in accountToEdit && (accountToEdit.blocked !== oldAccount.blocked))
       ) {
         await accountService.blockAccount(accountToEdit._id);
         await doLogout(req, res);
-        await loggerService.warn('accountBlocked', { reason: 'Security issue: user tried to change his system roles', account: minimizeAccount(oldAccount) });
-        return res.status(403).send({ err: 'SecurityWarnBlockedUser', msg: 'Security warning: blocked user for trying to change his system roles' });
+        const msg = 'Security issue: user tried to preform unauthorized action, tried to change his system roles';
+        await loggerService.warn('accountBlocked', { msg, account: minimizeAccount(oldAccount) });
+        return res.status(403).send({ err: 'SecurityWarnBlockedUser', msg });
       }
       delete accountToEdit.roles;
       delete accountToEdit.organizations;
