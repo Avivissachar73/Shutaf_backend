@@ -8,8 +8,8 @@ module.exports = {
       "_createdBy": accounts[0]._id,
       "_organizationId": miniDefaultOrgs[0]._id,
 
-      "title" : "SHOPPING!?",
       "type" : "smart",
+      "title" : "SHOPPING!?",
       "products" : [ 
           {
               "id" : "13A4-185F8E58B78-1A6C",
@@ -99,6 +99,41 @@ module.exports = {
       "cart" : [ 
           "10C7-18588A8A76E-736"
       ]
+    },
+    {
+        
+        "_createdBy": accounts[0]._id,
+        "_organizationId": miniDefaultOrgs[0]._id,
+        
+        "type" : "simple",
+        "title" : "simple red",
+        "products" : [ 
+            {
+                "name" : "apples",
+                "checked" : false,
+                "id" : "13DA-18656A6D2A1-11EB"
+            }, 
+            {
+                "name" : "popcorn",
+                "checked" : true,
+                "id" : "2359-1865A5A36CF-7AE"
+            }, 
+            {
+                "name" : "watermellon",
+                "checked" : false,
+                "id" : "118E-1865A5A3F16-247E"
+            }, 
+            {
+                "name" : "bread",
+                "checked" : false,
+                "id" : "25EB-1865A5A434E-19D3"
+            }, 
+            {
+                "name" : "pizza",
+                "checked" : true,
+                "id" : "80D-1865A5A4494-ECB"
+            }
+        ]
     }
   ]
 }
